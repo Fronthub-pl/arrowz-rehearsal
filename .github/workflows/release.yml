@@ -254,7 +254,7 @@ jobs:
               if [ -e "$tgz" ]; then
                 handed=$((handed + 1))
                 # npm takes `tarballs/x.tgz` for a GitHub repository; a path that starts with ./ is a file.
-                if ! npm stage publish --ignore-scripts "./$tgz"; then
+                if ! npm publish --ignore-scripts "./$tgz"; then
                   echo "::error::npm did not stage $tgz"
                   failed=1
                 fi

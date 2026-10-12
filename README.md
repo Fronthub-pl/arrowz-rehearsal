@@ -4,7 +4,9 @@ A rehearsal of the release workflow of [Arrowz](https://github.com/Fronthub-pl/a
 on a throwaway package, `@fronthub/arrowz-rehearsal`. Nothing here is for use.
 
 The rehearsal ran on 12 October 2026 and is over: every question below has its
-answer, the package is deprecated, and nothing is staged.
+answer. Afterwards the package was deprecated and then deleted from npm by its
+maintainer, so the registry no longer answers for it and the readings of
+`npm view` below cannot be repeated; the workflow runs and their logs remain.
 
 Arrowz publishes its packages by staging them on npm from GitHub Actions, and a
 maintainer approves each staged version with a second factor. Before the first

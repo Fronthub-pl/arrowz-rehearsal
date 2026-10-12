@@ -25,8 +25,9 @@ deno run --allow-read --allow-write derive.ts <path to an arrowz checkout>
 It changes only the text its `SWAPS` list names, and stops when a piece of that
 text is not in the source exactly as often as the list says. So the jobs
 `tag-published` and `plan` are the ones Arrowz runs; `stage` differs in two
-names; `build` packs and judges the one package but runs no other check; and
-`smoke` has one leg. The whole difference:
+names and in the fix of a fault the first run here found (see
+[Faults found](#faults-found)); `build` packs and judges the one package but
+runs no other check; and `smoke` has one leg. The whole difference:
 
 ```diff
 --- arrowz/.github/workflows/release.yml
@@ -100,7 +101,7 @@ names; `build` packs and judges the one package but runs no other check; and
              echo "::error::the digest list names something that is not one of the three tarballs"
              exit 1
            fi
-@@ -264,7 +249,7 @@
+@@ -264,11 +249,12 @@
            # re-run must still reach the packages npm has not staged yet.
            failed=0
            handed=0
@@ -109,6 +110,12 @@ names; `build` packs and judges the one package but runs no other check; and
              for tgz in tarballs/fronthub-arrowz-"$name"-*.tgz; do
                if [ -e "$tgz" ]; then
                  handed=$((handed + 1))
+-                if ! npm stage publish --ignore-scripts "$tgz"; then
++                # npm takes `tarballs/x.tgz` for a GitHub repository; a path that starts with ./ is a file.
++                if ! npm stage publish --ignore-scripts "./$tgz"; then
+                   echo "::error::npm did not stage $tgz"
+                   failed=1
+                 fi
 --- arrowz/packages/engine/scripts/release.ts
 +++ arrowz-rehearsal/packages/engine/scripts/release.ts
 @@ -8,7 +8,7 @@
@@ -141,6 +148,14 @@ names; `build` packs and judges the one package but runs no other check; and
 
 Everything else (`derive.ts`, its test, the manifests, `packages/rehearsal/`)
 was written for the rehearsal.
+
+## Faults found
+
+Faults of the workflow itself, which no question asked about.
+
+| # | Fault | Evidence | Fix |
+|---|---|---|---|
+| F1 | `stage` handed npm the tarball as `tarballs/fronthub-arrowz-rehearsal-0.1.0.tgz`. npm takes a path of that shape for a GitHub repository (`owner/repo`) and tried `git ls-remote ssh://git@github.com/tarballs/fronthub-arrowz-rehearsal-0.1.0.tgz.git`; nothing reached the registry. The digest check before it passed (`OK`), the first time `stage` downloaded an artifact. `npm publish` reads the path the same way. | [run 38232131979](https://github.com/Fronthub-pl/arrowz-rehearsal/actions/runs/38232131979), job `stage`; locally `npm stage publish tarballs/x.tgz --dry-run` fails the same way and `./tarballs/x.tgz` is accepted (npm 11.16.0) | The path starts with `./`. Here it is a swap of `derive.ts` until Arrowz carries the same two lines. |
 
 ## Results
 

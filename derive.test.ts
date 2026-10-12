@@ -55,6 +55,12 @@ Deno.test('the derived workflow gives the npm identity to the stage job only, an
   assertEquals(workflow.jobs.stage?.if, "github.event_name != 'pull_request' && github.ref == 'refs/heads/main'")
 })
 
+Deno.test('the stage job hands npm each tarball as a path that starts with ./', () => {
+  const text = Deno.readTextFileSync(new URL('.github/workflows/release.yml', import.meta.url))
+  assertEquals(text.split('npm stage publish').length - 1, 1)
+  assertEquals(text.split('if ! npm stage publish --ignore-scripts "./$tgz"; then').length - 1, 1)
+})
+
 Deno.test('the derived smoke has one leg', () => {
   assertEquals(workflow.jobs.smoke?.strategy?.matrix?.include?.length, 1)
 })

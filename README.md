@@ -164,6 +164,6 @@ workflow run or the output of the command.
 | Q13 | Does "Re-run all jobs" pass with `overwrite: true` on the upload? | | |
 | Q14 | What does the "Allowed actions" field of the trusted-publisher form ask for? | | |
 | Q15 | Is `npm publish` from the workflow refused when the entry allows staging only? | | |
-| Q16 | Is a run by hand at `0.0.0` green, planning nothing? | | |
+| Q16 | Is a run by hand at `0.0.0` green, planning nothing? | Yes. `tag-published` printed `no version went live since the last run`, `plan` printed `skip    @fronthub/arrowz-rehearsal@0.0.0`, and `build`, `smoke` and `stage` were skipped. | [run 38231811594](https://github.com/Fronthub-pl/arrowz-rehearsal/actions/runs/38231811594) |
 | Q17 | Does "Re-run failed jobs" stage the tarballs of the original run once the trusted publisher is right? | | |
 | Q18 | Does a stage over OIDC work on a package set to "Require two-factor authentication and disallow tokens"? | | |

@@ -1,0 +1,9 @@
+{
+  "name": "arrowz-rehearsal",
+  "private": true,
+  "packageManager": "pnpm@12.3.4",
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "publint": "^0.3.25"
+  }
+}

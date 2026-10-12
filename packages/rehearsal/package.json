@@ -1,0 +1,15 @@
+{
+  "name": "@fronthub/arrowz-rehearsal",
+  "version": "0.0.0",
+  "description": "A rehearsal of the Arrowz release workflow. Not for use.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fronthub-pl/arrowz-rehearsal.git",
+    "directory": "packages/rehearsal"
+  },
+  "type": "module",
+  "exports": { ".": { "default": "./index.js" } },
+  "publishConfig": { "access": "public" },
+  "files": ["index.js", "LICENSE", "CHANGELOG.md"]
+}

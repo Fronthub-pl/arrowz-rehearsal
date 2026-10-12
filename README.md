@@ -3,6 +3,9 @@
 A rehearsal of the release workflow of [Arrowz](https://github.com/Fronthub-pl/arrowz)
 on a throwaway package, `@fronthub/arrowz-rehearsal`. Nothing here is for use.
 
+The rehearsal ran on 12 October 2026 and is over: every question below has its
+answer, the package is deprecated, and nothing is staged.
+
 Arrowz publishes its packages by staging them on npm from GitHub Actions, and a
 maintainer approves each staged version with a second factor. Before the first
 real release, this repository ran that flow once for real, to see what npm does
@@ -160,8 +163,8 @@ Faults of the workflow itself, which no question asked about.
 
 ## Results
 
-Each row is filled in when its step has run. "Evidence" is a link to the
-workflow run or the output of the command.
+"Evidence" is a link to the workflow run, or the command whose output was read.
+Times are UTC, on 12 October 2026.
 
 | # | Question | What was seen | Evidence |
 |---|---|---|---|

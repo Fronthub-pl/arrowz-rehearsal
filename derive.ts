@@ -73,12 +73,6 @@ const IMPORT =
           node --input-type=module --eval "import { rehearsal } from '@fronthub/arrowz-rehearsal'; if (rehearsal !== true) process.exit(1)"
 `
 
-const BARE_PATH = '                if ! npm stage publish --ignore-scripts "$tgz"; then\n'
-
-const DOT_PATH =
-  '                # npm takes `tarballs/x.tgz` for a GitHub repository; a path that starts with ./ is a file.\n' +
-  '                if ! npm stage publish --ignore-scripts "./$tgz"; then\n'
-
 export const SWAPS: Swap[] = [
   {
     file: RELEASE,
@@ -92,8 +86,6 @@ export const SWAPS: Swap[] = [
   { file: WORKFLOW, find: CHECKS, put: '', times: 1 },
   { file: WORKFLOW, find: LEGS, put: '          - { os: ubuntu-latest, node: 24 }\n', times: 1 },
   { file: WORKFLOW, find: CONSUMER, put: IMPORT, times: 1 },
-  // Found by the first run here; the swap goes when Arrowz carries the same two lines.
-  { file: WORKFLOW, find: BARE_PATH, put: DOT_PATH, times: 1 },
 ]
 
 /** Puts `put` wherever `find` is; throws unless `find` is there exactly `times` times. */

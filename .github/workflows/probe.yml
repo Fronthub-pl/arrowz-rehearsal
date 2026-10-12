@@ -1,0 +1,35 @@
+name: Probe
+
+# One-off, started by hand: which tags does GitHub let the workflow's own token create?
+# Not part of the release, and npm trusts only release.yml.
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  tags:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+
+      - name: A tag on the commit the run is on
+        run: git tag probe-head HEAD && git push origin refs/tags/probe-head
+
+      - name: A tag the ruleset protects, on the commit the run is on
+        if: always()
+        run: git tag '@fronthub/arrowz-probe@0.0.0' HEAD && git push origin 'refs/tags/@fronthub/arrowz-probe@0.0.0'
+
+      - name: A tag on an older commit whose workflow file differs, by git push
+        if: always()
+        run: git tag probe-old 9157cf1f9a83f5c7acf47c741cc3eceb893c30c0 && git push origin refs/tags/probe-old
+
+      - name: The same older commit, through the REST API
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/git/refs" -f ref=refs/tags/probe-old-api -f sha=9157cf1f9a83f5c7acf47c741cc3eceb893c30c0

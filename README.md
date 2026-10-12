@@ -165,7 +165,7 @@ workflow run or the output of the command.
 | # | Question | What was seen | Evidence |
 |---|---|---|---|
 | Q1 | Does the OIDC exchange work with the `.npmrc` that `actions/setup-node` writes? | | |
-| Q2 | What does `stage` print, and how does it end, when the package does not exist on npm? | | |
+| Q2 | What does `stage` print, and how does it end, when the package does not exist on npm? | npm 11.19.0 packs the notice, prints `Staging to https://registry.npmjs.org/ with tag latest and public access`, then fails with `npm error code E401` and `Unable to authenticate, your authentication token seems to be invalid.` (not `ENEEDAUTH`). The step prints `npm did not stage tarballs/fronthub-arrowz-rehearsal-0.1.0.tgz` and the job is red. In the same run `plan` read npm's `E404` for the missing package as "not published" (`release @fronthub/arrowz-rehearsal@0.1.0`), with the npm of the runner image. | [run 38232520179](https://github.com/Fronthub-pl/arrowz-rehearsal/actions/runs/38232520179), job `stage` |
 | Q3 | What does `stage` print when one field of the trusted publisher is wrong? | | |
 | Q4 | Does `npm stage publish` from a logged-in laptop create a package that does not exist, and does the package stay after its only staged version is rejected? | | |
 | Q5 | What does `npm view <name>@<version> version --json` answer for a version that is staged and not approved? | | |
@@ -176,7 +176,7 @@ workflow run or the output of the command.
 | Q10 | Does a stage over OIDC carry provenance, and does the package page show it after approval? | | |
 | Q11 | Is `latest` the approved `0.1.0`, whatever form the placeholder took? | | |
 | Q12 | Is the release tag created under the tag ruleset, on the commit that set the version? | | |
-| Q13 | Does "Re-run all jobs" pass with `overwrite: true` on the upload? | | |
+| Q13 | Does "Re-run all jobs" pass with `overwrite: true` on the upload? | Yes. In the second attempt `build` read the digests back and uploaded the artifact again without an error; `plan` and `tag-published` ran again and decided the same. | [run 38232131979](https://github.com/Fronthub-pl/arrowz-rehearsal/actions/runs/38232131979), attempt 2 |
 | Q14 | What does the "Allowed actions" field of the trusted-publisher form ask for? | | |
 | Q15 | Is `npm publish` from the workflow refused when the entry allows staging only? | | |
 | Q16 | Is a run by hand at `0.0.0` green, planning nothing? | Yes. `tag-published` printed `no version went live since the last run`, `plan` printed `skip    @fronthub/arrowz-rehearsal@0.0.0`, and `build`, `smoke` and `stage` were skipped. | [run 38231811594](https://github.com/Fronthub-pl/arrowz-rehearsal/actions/runs/38231811594) |
